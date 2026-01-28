@@ -223,7 +223,15 @@ function saveToStorage(data) {
   localStorage.setItem("studentData", JSON.stringify(dataArray));
 }
 
+function loadFromStorage() {
+  const storedData = localStorage.getItem("studentData");
 
+  if (storedData) {
+    return JSON.parse(storedData);
+  } else {
+    return null;
+  }
+}
 
 
 document.getElementById("btn-calculate").addEventListener("click", function () {
