@@ -191,6 +191,11 @@ button {
   return true;
 }
 
+function calculateScore(midterm, finalScore, assignment) {
+  return (midterm * 0.2) + (finalScore * 0.5) + (assignment * 0.3);
+}
+
+
 
 document.getElementById("btn-calculate").addEventListener("click", function () {
 
@@ -208,8 +213,20 @@ document.getElementById("btn-calculate").addEventListener("click", function () {
   }
 
   alert("ข้อมูลถูกต้อง");
+
+    const totalScore = calculateScore(
+      Number(midterm),
+      Number(finalScore),
+      Number(assignment)
+    );
+
+    console.log("Total Score:", totalScore);
+    alert("คะแนนรวม = " + totalScore);
+
 });
 
+
+    
     console.log(validateScore(85));    
 console.log(validateScore("85"));   
 console.log(validateScore("abc"));  
