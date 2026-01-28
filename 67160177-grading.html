@@ -233,55 +233,99 @@ function loadFromStorage() {
   }
 }
 
+function renderResults(dataArray) {
+  const resultContainer = document.getElementById("result-container");
+  const resultList = document.getElementById("result-list");
 
-document.getElementById("btn-calculate").addEventListener("click", function () {
+  resultList.innerHTML = "";
+  resultContainer.style.display = "block";
 
+  dataArray.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "result-item";
+    div.innerHTML = `
+      <strong>${index + 1}. ${item.name}</strong> (${item.subject})<br>
+      Midterm: ${item.midterm},
+      Final: ${item.final},
+      Assignment: ${item.assignment}<br>
+      Score: ${item.score} |
+      Grade: ${item.grade} |
+      Status: ${item.status}
+    `;
+    resultList.appendChild(div);
+  });
+}
+
+
+function handleCalculate() {
+  const name = document.getElementById("student-name").value.trim();
+  const subject = document.getElementById("subject-name").value.trim();
   const midterm = document.getElementById("midterm-score").value;
   const finalScore = document.getElementById("final-score").value;
   const assignment = document.getElementById("assignment-score").value;
+
+  if (name === "" || subject === "") {
+    alert("Please enter student name and subject");
+    return;
+  }
+
+  if (
+    isNaN(Number(midterm)) ||
+    isNaN(Number(finalScore)) ||
+    isNaN(Number(assignment))
+  ) {
+    alert("Please enter valid numbers only");
+    return;
+  }
 
   if (
     !validateScore(midterm) ||
     !validateScore(finalScore) ||
     !validateScore(assignment)
   ) {
-    alert("กรุณากรอกคะแนนให้ถูกต้อง");
-    return; // ✅ ใช้ได้
+    alert("All scores must be between 0-100");
+    return;
   }
 
-  alert("ข้อมูลถูกต้อง");
+  const totalScore = calculateScore(
+    Number(midterm),
+    Number(finalScore),
+    Number(assignment)
+  );
 
-    const totalScore = calculateScore(
-      Number(midterm),
-      Number(finalScore),
-      Number(assignment)
-    );
+  const grade = getGrade(totalScore);
 
-    console.log("Total Score:", totalScore);
-  
+  // 5. Get Status
+  const status = getStatus(grade);
 
-    const grade = getGrade(totalScore);
+  alert(
+    "Score: " + totalScore +
+    "\nGrade: " + grade +
+    "\nStatus: " + status
+  );
 
-    const status = getStatus(grade);
+  const data = {
+    name: name,
+    subject: subject,
+    midterm: Number(midterm),
+    final: Number(finalScore),
+    assignment: Number(assignment),
+    score: totalScore,
+    grade: grade,
+    status: status
+  };
 
-    alert(
-      "คะแนนรวม = " + totalScore +
-      "\nเกรด = " + grade +
-      "\nสถานะ = " + status)
+  saveToStorage(data);
 
-      const data = {
-  name: document.getElementById("student-name").value,
-  subject: document.getElementById("subject-name").value,
-  midterm: Number(midterm),
-  final: Number(finalScore),
-  assignment: Number(assignment),
-  score: totalScore,
-  grade: grade,
-  status: status
-};
+   const allData = loadFromStorage();
+  renderResults(allData);
+}
 
-saveToStorage(data);
-});
+document.getElementById("btn-calculate")
+  .addEventListener("click", handleCalculate);
+
+
+
 
  
 </script>
