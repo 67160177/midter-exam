@@ -146,17 +146,17 @@ button {
 
   <div class="form-row">
     <label>Midterm (0-100)</label>
-    <input id="midterm-score" type="int">
+    <input id="midterm-score" type="number">
   </div>
 
   <div class="form-row">
     <label>Final (0-100)</label>
-    <input id="final-score" type="int">
+    <input id="final-score" type="number">
   </div>
 
   <div class="form-row">
     <label>Assignment (0-100)</label>
-    <input id="assignment-score" type="int">
+    <input id="assignment-score" type="number">
   </div>
 
   <div class="button-group">
@@ -172,8 +172,50 @@ button {
 </div>
 
 <script>
+  function validateScore(score) {
+  
+  if (score === "" || score === null || score === undefined) {
+    return false;
+  }
 
-    
+  const numberScore = Number(score);
+
+  if (isNaN(numberScore)) {
+    return false;
+  }
+
+  if (numberScore < 0 || numberScore > 100) {
+    return false;
+  }
+
+  return true;
+}
+
+
+document.getElementById("btn-calculate").addEventListener("click", function () {
+
+  const midterm = document.getElementById("midterm-score").value;
+  const finalScore = document.getElementById("final-score").value;
+  const assignment = document.getElementById("assignment-score").value;
+
+  if (
+    !validateScore(midterm) ||
+    !validateScore(finalScore) ||
+    !validateScore(assignment)
+  ) {
+    alert("กรุณากรอกคะแนนให้ถูกต้อง");
+    return; // ✅ ใช้ได้
+  }
+
+  alert("ข้อมูลถูกต้อง");
+});
+
+    console.log(validateScore(85));    
+console.log(validateScore("85"));   
+console.log(validateScore("abc"));  
+console.log(validateScore(-5));     
+console.log(validateScore(105));    
+console.log(validateScore(""));     
 </script>
 
 
