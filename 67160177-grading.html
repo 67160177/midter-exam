@@ -320,9 +320,19 @@ function handleCalculate() {
    const allData = loadFromStorage();
   renderResults(allData);
 }
-
 document.getElementById("btn-calculate")
   .addEventListener("click", handleCalculate);
+function handleClear() {
+  document.getElementById("student-name").value = "";
+  document.getElementById("subject-name").value = "";
+  document.getElementById("midterm-score").value = "";
+  document.getElementById("final-score").value = "";
+  document.getElementById("assignment-score").value = "";
+
+  document.getElementById("result-container").style.display = "none";
+}
+document.getElementById("btn-clear")
+  .addEventListener("click", handleClear);
 
 
 
