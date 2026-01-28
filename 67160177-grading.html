@@ -216,6 +216,13 @@ function getGrade(score) {
     return "F";
   }
 }
+function saveToStorage(data) {
+  let storedData = localStorage.getItem("studentData");
+  let dataArray = storedData ? JSON.parse(storedData) : [];
+  dataArray.push(data);
+  localStorage.setItem("studentData", JSON.stringify(dataArray));
+}
+
 
 
 
@@ -243,7 +250,7 @@ document.getElementById("btn-calculate").addEventListener("click", function () {
     );
 
     console.log("Total Score:", totalScore);
-    alert("คะแนนรวม = " + totalScore);
+  
 
     const grade = getGrade(totalScore);
 
@@ -253,8 +260,20 @@ document.getElementById("btn-calculate").addEventListener("click", function () {
       "คะแนนรวม = " + totalScore +
       "\nเกรด = " + grade +
       "\nสถานะ = " + status)
-});
 
+      const data = {
+  name: document.getElementById("student-name").value,
+  subject: document.getElementById("subject-name").value,
+  midterm: Number(midterm),
+  final: Number(finalScore),
+  assignment: Number(assignment),
+  score: totalScore,
+  grade: grade,
+  status: status
+};
+
+saveToStorage(data);
+});
 
  
 </script>
