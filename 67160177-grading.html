@@ -195,6 +195,14 @@ function calculateScore(midterm, finalScore, assignment) {
   return (midterm * 0.2) + (finalScore * 0.5) + (assignment * 0.3);
 }
 
+function getStatus(grade) {
+  if (grade === "F") {
+    return "FAIL";
+  } else {
+    return "PASS";
+  }
+}
+
 function getGrade(score) {
   if (score >= 80 && score <= 100) {
     return "A";
@@ -236,27 +244,19 @@ document.getElementById("btn-calculate").addEventListener("click", function () {
 
     console.log("Total Score:", totalScore);
     alert("คะแนนรวม = " + totalScore);
-    
-const grade = getGrade(totalScore);
 
-alert("คะแนนรวม = " + totalScore + "\nเกรด = " + grade);
+    const grade = getGrade(totalScore);
+
+    const status = getStatus(grade);
+
+    alert(
+      "คะแนนรวม = " + totalScore +
+      "\nเกรด = " + grade +
+      "\nสถานะ = " + status)
 });
 
 
-    
-    console.log(validateScore(85));    
-console.log(validateScore("85"));   
-console.log(validateScore("abc"));  
-console.log(validateScore(-5));     
-console.log(validateScore(105));    
-console.log(validateScore("")); 
-
-console.log(getGrade(85)); // A
-console.log(getGrade(72)); // B
-console.log(getGrade(65)); // C
-console.log(getGrade(55)); // D
-console.log(getGrade(40)); // F
-
+ 
 </script>
 
 
